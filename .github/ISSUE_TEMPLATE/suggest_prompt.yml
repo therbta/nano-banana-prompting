@@ -1,0 +1,66 @@
+name: Suggest a Prompt
+description: Suggest a new AI prompt to be added to the collection.
+title: "[PROMPT] <Short description of prompt>"
+labels: ["enhancement", "new-prompt"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a new prompt! Please fill out the details below.
+  
+  - type: dropdown
+    id: prompt-type
+    attributes:
+      label: Prompt Type
+      description: Is this a text-based prompt or a JSON structured prompt?
+      options:
+        - Text
+        - JSON
+    validations:
+      required: true
+
+  - type: dropdown
+    id: has-reference
+    attributes:
+      label: Can it be used with a reference image?
+      description: Does this prompt support uploading a user face/style reference?
+      options:
+        - "Yes"
+        - "No"
+    validations:
+      required: true
+  
+  - type: input
+    id: model
+    attributes:
+      label: Model Compatibility
+      description: Which model is this designed for? (e.g. Midjourney v6, DALL-E 3)
+      placeholder: Midjourney v6
+    validations:
+      required: true
+
+  - type: textarea
+    id: prompt-content
+    attributes:
+      label: The Prompt
+      description: Paste the full prompt here.
+      render: json
+    validations:
+      required: true
+
+  - type: textarea
+    id: reference-instructions
+    attributes:
+      label: Reference Instructions
+      description: If you selected "Yes" for reference image, please paste the specific "Using Reference Photo" instruction text here.
+      placeholder: "Use the uploaded reference image as..."
+    validations:
+      required: false
+
+  - type: input
+    id: image-url
+    attributes:
+      label: Example Image URL (Optional)
+      description: Link to an example result image.
+    validations:
+      required: false

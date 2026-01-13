@@ -1,0 +1,23 @@
+# System Files
+.DS_Store
+Thumbs.db
+
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# Logs
+*.log
+
+# Editor Settings
+.vscode/
+.idea/
+
+# Temporary Scripts
+fix_*.js
+temp_*.js
+*.tmp
+
+# Environment Variables
+.env
