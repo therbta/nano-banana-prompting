@@ -21,6 +21,7 @@
             --accent-primary: #f59e0b;
             --badge-json: #8b5cf6;
             --badge-text: #22c55e;
+            --mode-color: #22c55e;
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
             --radius-md: 10px;
             --radius-lg: 16px;
@@ -30,6 +31,8 @@
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
         body { font-family: var(--font-sans); background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; min-height: 100vh; }
+        body[data-mode="generic"] { --mode-color: #22c55e; }
+        body[data-mode="reference"] { --mode-color: #3b82f6; }
         .hero { background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%); border-bottom: 1px solid var(--border-color); padding: 1.5rem 1rem; text-align: center; position: relative; overflow: hidden; transition: all 0.3s ease; }
         .hero.compact { padding: 0.75rem 1rem; }
         .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 20% 50%, rgba(245, 158, 11, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 50%, rgba(139, 92, 246, 0.1) 0%, transparent 50%); pointer-events: none; }
@@ -115,7 +118,7 @@
         .card-actions { display: flex; gap: 0.5rem; }
         .btn-icon { background: transparent; border: none; padding: 0.5rem; color: var(--text-muted); cursor: pointer; border-radius: 6px; }
         .btn-icon:hover { background: #222; color: var(--text-primary); }
-        .btn-copy:hover { color: #22c55e; }
+        .btn-copy:hover { color: var(--mode-color); }
         .btn-twitter { color: var(--text-primary); }
         .btn-twitter:hover { color: var(--accent-primary); }
         .prompt-images { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.5rem; padding: 1rem; background: var(--bg-primary); }
@@ -128,7 +131,8 @@
         .prompt-text code { font-family: var(--font-mono); font-size: 0.75rem; line-height: 1.7; color: var(--text-secondary); white-space: pre-wrap; }
         .card-footer { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background: var(--bg-secondary); border-top: 1px solid var(--border-color); }
         .tweet-id { font-size: 0.688rem; color: var(--text-muted); font-family: var(--font-mono); }
-        .btn-copy-full { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--accent-primary); border: none; padding: 0.5rem 1rem; font-size: 0.813rem; font-weight: 600; color: var(--bg-primary); border-radius: 6px; cursor: pointer; }
+        .btn-copy-full { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--mode-color); border: none; padding: 0.5rem 1rem; font-size: 0.813rem; font-weight: 600; color: var(--bg-primary); border-radius: 6px; cursor: pointer; transition: background 0.2s; }
+        .btn-copy-full:hover { filter: brightness(1.1); }
         .pagination { display: flex; justify-content: center; gap: 0.5rem; margin-top: 2rem; padding: 1rem; flex-wrap: wrap; }
         .pagination-info { color: var(--text-secondary); font-size: 0.875rem; margin-right: 1rem; }
         .pagination-btn { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.5rem 1rem; font-size: 0.875rem; color: var(--text-secondary); cursor: pointer; min-width: 40px; }
@@ -504,6 +508,7 @@
             document.querySelectorAll('input[name="promptMode"]').forEach(radio => {
                 radio.addEventListener('change', (e) => {
                     currentPromptMode = e.target.value;
+                    document.body.setAttribute('data-mode', currentPromptMode);
                     renderPrompts();
                 });
             });
@@ -546,6 +551,8 @@
             });
 
             renderPrompts();
+            // Initialize body data-mode
+            document.body.setAttribute('data-mode', currentPromptMode);
         }
 
         if (document.readyState === 'loading') {
