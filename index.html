@@ -241,6 +241,9 @@
                 <button class="tab-btn active" data-tab="all">
                     <i class="ph ph-squares-four"></i> all prompts
                 </button>
+                <button class="tab-btn" data-tab="recent">
+                    <i class="ph ph-clock"></i> recent
+                </button>
                 <button class="tab-btn" data-tab="favorites">
                     <i class="ph ph-heart"></i> favorites
                     <span class="tab-count" id="favCountBadge">0</span>
@@ -451,7 +454,9 @@
                 const matchesSearch = searchTerm === '' || promptText.includes(searchTerm);
                 const matchesFilter = currentFilter === 'all' || promptType.includes(currentFilter);
 
-                const matchesTab = currentTab === 'all' || (currentTab === 'favorites' && favorites.has(item.id));
+                const matchesTab = currentTab === 'all' ||
+                    (currentTab === 'favorites' && favorites.has(item.id)) ||
+                    (currentTab === 'recent' && index >= promptsData.length - 20);
 
                 if (matchesSearch && matchesFilter && matchesTab) {
                     filteredIndices.push(index);

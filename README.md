@@ -63,13 +63,28 @@ Edit `data.json` and add new entries following the existing format:
 
 ## 🤝 Contributing
 
-Contributions are welcome! Feel free to:
+We love contributions! There are two ways to contribute new prompts:
+
+### 🎯 Suggest a Prompt (Recommended for non-coders)
+
+1. Click **[Suggest Prompts](https://github.com/therbta/nano-banana-prompt-archive/issues/new?template=suggest_prompt.yml)** in the header
+2. Fill out the structured form with:
+   - Prompt Type (Text/JSON)
+   - Whether it supports reference images
+   - The prompt content (Generic + Reference versions if applicable)
+   - Optional example image URL
+3. Submit the issue
+4. Once approved by maintainers, it will be **automatically added** to the collection!
+
+### 💻 Direct Pull Request (For developers)
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+2. Edit `data.json` following the existing format
+3. Ensure you include both `generic` and `withReferenceUpload` versions if applicable
+4. Create a Pull Request using the provided template
+5. Wait for review and approval
+
+**Note:** All contributions are reviewed by [@therbta](https://github.com/therbta) to maintain quality standards.
 
 ## 🙏 Credits
 
