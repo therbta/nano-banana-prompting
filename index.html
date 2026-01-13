@@ -41,7 +41,7 @@
         .hero.compact .hero-content { flex-direction: row; justify-content: space-between; max-width: 1400px; gap: 1rem; }
         .hero-title-group { display: flex; flex-direction: column; align-items: center; gap: 0rem; }
         .hero.compact .hero-title-group { flex-direction: row; align-items: center; gap: 0.75rem; }
-        .hero h1 { font-size: clamp(1.25rem, 3vw, 1.5rem); font-weight: 800; line-height: 1.1; background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero h1 { font-size: clamp(1.25rem, 3vw, 1.5rem); font-weight: 800; line-height: 1.1; background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
         .hero.compact h1 { font-size: 1rem; }
         .hero p { font-size: 0.75rem; color: var(--text-muted); margin: 0; }
         .hero.compact .hero-title-group p { display: none; }
@@ -119,8 +119,19 @@
         .btn-copy:hover { color: var(--mode-color); }
         .btn-twitter { color: var(--text-primary); }
         .btn-twitter:hover { color: var(--accent-primary); }
-        .prompt-images { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.5rem; padding: 1rem; background: var(--bg-primary); }
-        .image-container { position: relative; aspect-ratio: 1; border-radius: var(--radius-md); overflow: hidden; background: var(--bg-secondary); cursor: pointer; }
+        .prompt-images { padding: 0.5rem; background: var(--bg-primary); }
+        .image-grid { display: grid; gap: 2px; border-radius: var(--radius-md); overflow: hidden; }
+        .image-grid.single { grid-template-columns: 1fr; }
+        .image-grid.double { grid-template-columns: 1fr 1fr; }
+        .image-grid.triple { grid-template-columns: 1fr 1fr 1fr; }
+        .image-grid.grid { grid-template-columns: repeat(2, 1fr); }
+        
+        .image-container { position: relative; width: 100%; background: var(--bg-secondary); cursor: pointer; overflow: hidden; }
+        .image-grid.single .image-container { height: 240px; }
+        .image-grid.double .image-container { height: 200px; }
+        .image-grid.triple .image-container { height: 160px; }
+        .image-grid.grid .image-container { height: 140px; }
+        
         .image-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
         .image-container:hover img { transform: scale(1.05); }
         .card-body { padding: 1rem; }
@@ -360,8 +371,12 @@
             const imageContainerClass = item.imageUrls.length === 1 ? 'single' : (item.imageUrls.length === 2 ? 'double' : (item.imageUrls.length === 3 ? 'triple' : 'grid'));
             let imagesHtml = '';
             if (item.imageUrls.length > 0) {
-                imagesHtml = `<div class="image-grid ${imageContainerClass}">` +
-                    item.imageUrls.map(url => `<img src="${url}" alt="Prompt result" loading="lazy" onclick="openImageViewer(this.src)" onerror="this.onerror=null; this.src='https://placehold.co/200x200/1e1e21/71717a?text=No+Preview';">`).join('') +
+                imagesHtml = `<div class="image-grid ${imageContainerClass}">` + 
+                    item.imageUrls.map(url => `
+                        <div class="image-container" onclick="openImageViewer('${url}')">
+                            <img src="${url}" alt="Prompt result" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/200x200/1e1e21/71717a?text=No+Preview';">
+                        </div>`
+                    ).join('') + 
                     `</div>`;
             }
 
