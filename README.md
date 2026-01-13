@@ -4,7 +4,7 @@
 
 A curated collection of **496 professional AI prompts** with advanced filtering, search, and pagination. Browse, view, and copy high-quality prompts for AI models.
 
-[Live Demo](https://therbta.github.io/nano-banana-prompting/) · [Report Issue](https://github.com/therbta/nano-banana-prompting/issues) · [Request Feature](https://github.com/therbta/nano-banana-prompting/issues)
+[Live Demo](https://therbta.github.io/nano-banana-prompt-archive/) · [Report Issue](https://github.com/therbta/nano-banana-prompt-archive/issues) · [Request Feature](https://github.com/therbta/nano-banana-prompt-archive/issues)
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
@@ -13,7 +13,7 @@ A curated collection of **496 professional AI prompts** with advanced filtering,
 </div>
 
 <p align="center">
-  <a href="https://therbta.github.io/nano-banana-prompting/" target="_blank">
+  <a href="https://therbta.github.io/nano-banana-prompt-archive/" target="_blank">
     <img src="screenshot.png" alt="Nano Banana Pro Prompts Screenshot" width="800" />
   </a>
 </p>
@@ -33,7 +33,7 @@ A curated collection of **496 professional AI prompts** with advanced filtering,
 
 ## 🚀 Quick Start
 
-Visit [therbta.github.io/nano-banana-prompting](https://therbta.github.io/nano-banana-prompting/) to browse the collection.
+Visit [therbta.github.io/nano-banana-prompt-archive](https://therbta.github.io/nano-banana-prompt-archive/) to browse the collection.
 
 ## 🔧 Customization
 
