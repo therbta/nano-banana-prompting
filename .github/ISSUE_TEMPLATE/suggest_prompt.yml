@@ -40,20 +40,21 @@ body:
       required: true
 
   - type: textarea
-    id: prompt-content
+    id: generic-prompt
     attributes:
-      label: The Prompt
-      description: Paste the full prompt here.
+      label: Generic Prompt
+      description: The standard prompt text (used when "Generic Prompt" tab is active).
       render: json
     validations:
       required: true
 
   - type: textarea
-    id: reference-instructions
+    id: reference-prompt
     attributes:
-      label: Reference Instructions
-      description: If you selected "Yes" for reference image, please paste the specific "Using Reference Photo" instruction text here.
+      label: Reference Prompt (If applicable)
+      description: The full prompt text to be used when "Using Reference Photo" is active. Typically contains "Use the uploaded reference image..."
       placeholder: "Use the uploaded reference image as..."
+      render: json
     validations:
       required: false
 
