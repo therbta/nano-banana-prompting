@@ -54,6 +54,13 @@
         .view-toggle.active { background: var(--bg-tertiary); color: var(--text-primary); }
         .page-size-selector { display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.813rem; }
         .page-size-selector select { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.5rem 0.75rem; font-size: 0.813rem; color: var(--text-primary); cursor: pointer; }
+        .prompt-mode-selector { display: flex; gap: 0.5rem; align-items: center; padding: 0.5rem; background: var(--bg-secondary); border-radius: 6px; }
+        .radio-option { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; padding: 0.5rem 1rem; border-radius: 6px; transition: background 0.2s; }
+        .radio-option:hover { background: var(--bg-tertiary); }
+        .radio-option input[type="radio"] { accent-color: var(--accent-primary); }
+        .radio-option span { font-size: 0.813rem; color: var(--text-secondary); }
+        .radio-option:has(input:checked) { background: var(--accent-primary); }
+        .radio-option:has(input:checked) span { color: var(--bg-primary); font-weight: 600; }
         .container { max-width: 1400px; margin: 0 auto; padding: 2rem 1rem; }
         .prompts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 1.5rem; }
         .prompts-grid.view-compact { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
@@ -161,6 +168,16 @@
                 <button class="filter-btn" data-filter="json">JSON</button>
                 <button class="filter-btn" data-filter="text">Text</button>
             </div>
+            <div class="prompt-mode-selector">
+                <label class="radio-option">
+                    <input type="radio" name="promptMode" value="generic" checked>
+                    <span>Use Generic Prompt</span>
+                </label>
+                <label class="radio-option">
+                    <input type="radio" name="promptMode" value="reference">
+                    <span>Use Reference Photo</span>
+                </label>
+            </div>
             <div class="view-toggles">
                 <button class="view-toggle active" data-view="grid">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
@@ -227,6 +244,7 @@
         let currentFilter = 'all';
         let searchTerm = '';
         let filteredIndices = [];
+        let currentPromptMode = 'generic';
 
         async function loadData() {
             try {
@@ -249,6 +267,16 @@
 
         function createPromptCard(item) {
             const badgeClass = item.promptType === 'json' ? 'badge-json' : 'badge-text';
+            // Select the correct prompt based on mode
+            const modeKey = currentPromptMode === 'reference' ? 'withReferenceUpload' : 'generic';
+            const promptsObj = item.prompts || item;
+            const formattedPromptsObj = item.formattedPrompts || item;
+            const promptData = promptsObj[modeKey] || promptsObj.generic || item;
+            const formattedPromptData = formattedPromptsObj[modeKey] || formattedPromptsObj.generic || item;
+            const promptText = formattedPromptData.formattedPrompt || formattedPromptData.prompt || item.formattedPrompt || item.prompt;
+            const promptForCopy = promptData.prompt || item.prompt;
+            item._currentPrompt = promptForCopy; // Store for copy function
+
             const imagesHtml = item.imageUrls.map(url => `
                 <div class="image-container" onclick="openImageViewer('${url}')">
                     <img src="${url}" alt="Result" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/200x200/1e1e21/71717a?text=No+Preview';">
@@ -278,7 +306,7 @@
                     ${imagesHtml ? `<div class="prompt-images">${imagesHtml}</div>` : ''}
                     <div class="card-body">
                         <div class="prompt-text">
-                            <pre><code>${escapeHtml(item.formattedPrompt.substring(0, 5000))}</code></pre>
+                            <pre><code>${escapeHtml(promptText.substring(0, 5000))}</code></pre>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -301,7 +329,10 @@
         function filterPrompts() {
             filteredIndices = [];
             promptsData.forEach((item, index) => {
-                const promptText = item.formattedPrompt.toLowerCase();
+                const modeKey = currentPromptMode === 'reference' ? 'withReferenceUpload' : 'generic';
+                const formattedPromptsObj = item.formattedPrompts || item;
+                const promptData = formattedPromptsObj[modeKey] || formattedPromptsObj.generic || item;
+                const promptText = (promptData.formattedPrompt || promptData.prompt || item.formattedPrompt || item.prompt).toLowerCase();
                 const promptType = item.promptType.toLowerCase();
                 const matchesSearch = searchTerm === '' || promptText.includes(searchTerm);
                 const matchesFilter = currentFilter === 'all' || promptType.includes(currentFilter);
@@ -369,7 +400,8 @@
         window.copyPrompt = function(id) {
             const item = promptsData.find(p => p.id === id);
             if (item && navigator.clipboard) {
-                navigator.clipboard.writeText(item.prompt).then(() => {
+                const promptToCopy = item._currentPrompt || item.prompt;
+                navigator.clipboard.writeText(promptToCopy).then(() => {
                     document.getElementById('toast').classList.add('show');
                     setTimeout(() => document.getElementById('toast').classList.remove('show'), 3000);
                 });
@@ -400,6 +432,13 @@
                     btn.classList.add('active');
                     currentFilter = btn.dataset.filter;
                     filterPrompts();
+                });
+            });
+
+            document.querySelectorAll('input[name="promptMode"]').forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    currentPromptMode = e.target.value;
+                    renderPrompts();
                 });
             });
 
