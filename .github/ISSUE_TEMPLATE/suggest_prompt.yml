@@ -1,7 +1,7 @@
 name: Suggest a Prompt
 description: Suggest a new AI prompt to be added to the collection.
 title: "[PROMPT] <Short description of prompt>"
-labels: ["enhancement", "new-prompt"]
+labels: ["New Prompt Request"]
 body:
   - type: markdown
     attributes:
