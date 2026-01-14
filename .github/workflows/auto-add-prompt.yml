@@ -38,6 +38,8 @@ jobs:
             const genericPrompt = parseField('Generic Prompt');
             const referencePrompt = parseField('Reference Prompt \\(If applicable\\)');
             const imageUrl = parseField('Example Image URL \\(Optional\\)');
+            const twitterUrl = parseField('Twitter/X Post URL \\(Optional\\)');
+            const tweetId = parseField('Tweet ID \\(Optional\\)');
             
             // Read existing data
             const data = JSON.parse(fs.readFileSync('data.json', 'utf8'));
@@ -48,8 +50,6 @@ jobs:
             // Create new prompt object
             const newPrompt = {
               id: newId,
-              tweetId: `issue-${issue.number}`,
-              twitterUrl: issue.html_url,
               promptType: promptType,
               model: "Nano Banana Pro",
               contributor: issue.user.login,
@@ -57,6 +57,10 @@ jobs:
               prompt: genericPrompt,
               formattedPrompt: genericPrompt
             };
+            
+            // Add optional Twitter fields if provided
+            if (tweetId) newPrompt.tweetId = tweetId;
+            if (twitterUrl) newPrompt.twitterUrl = twitterUrl;
             
             // Add prompts structure if has reference
             if (hasReference === 'yes' && referencePrompt) {

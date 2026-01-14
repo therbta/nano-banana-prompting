@@ -58,3 +58,21 @@ body:
       description: Link to an example result image.
     validations:
       required: false
+
+  - type: input
+    id: twitter-url
+    attributes:
+      label: Twitter/X Post URL (Optional)
+      description: If this prompt came from a Twitter/X post, paste the URL here.
+      placeholder: "https://twitter.com/username/status/1234567890"
+    validations:
+      required: false
+
+  - type: input
+    id: tweet-id
+    attributes:
+      label: Tweet ID (Optional)
+      description: The numeric ID from the Twitter/X URL (e.g., 1234567890).
+      placeholder: "1234567890"
+    validations:
+      required: false
