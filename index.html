@@ -462,6 +462,12 @@
                     filteredIndices.push(index);
                 }
             });
+
+            // Reverse order for Recent tab to show newest first
+            if (currentTab === 'recent') {
+                filteredIndices.reverse();
+            }
+            
             currentPage = 1;
             document.getElementById('visibleCount').textContent = `Showing ${filteredIndices.length} prompts`;
             updateDisplay();
