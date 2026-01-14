@@ -52,6 +52,7 @@ jobs:
               twitterUrl: issue.html_url,
               promptType: promptType,
               model: "Nano Banana Pro",
+              contributor: issue.user.login,
               imageUrls: imageUrl ? [imageUrl] : [],
               prompt: genericPrompt,
               formattedPrompt: genericPrompt
